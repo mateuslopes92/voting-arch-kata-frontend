@@ -40,7 +40,7 @@ Design for a global voting platform serving **300M users** with **250K requests/
 ## Vote Lifecycle
 
 1. **User casts a vote**
-   - The frontend generates a `voteId` and cryptographic `signature`.
+   - The frontend generates a `voteId`, cryptographic `signature` and `idempotencyKey`.
    - The vote is stored in IndexedDB with status `queued`.
 
 2. **Network transmission**
@@ -94,16 +94,18 @@ Design for a global voting platform serving **300M users** with **250K requests/
 
 ---
 
-## Recommended Frontend Stack
+## Recommended Frontend Stack (Vue.js Version)
 
-| Component             | Technology                       | Purpose                                          |
-| --------------------- | -------------------------------- | ------------------------------------------------ |
-| **Framework**         | SvelteKit                        | Lightweight, fast, and ideal for low-end devices |
-| **Hosting**           | Cloudflare Pages or Vercel Edge  | Global CDN delivery                              |
-| **Offline Storage**   | IndexedDB                        | Persistent local queue                           |
-| **Sync Engine**       | Service Worker + Background Sync | Reliable delivery                                |
-| **Real-Time Updates** | WebSockets / SSE                 | Live vote count updates                          |
-| **Security**          | Signed vote payloads             | Prevent tampering and ensure privacy             |
+| Component           | Technology                       | Purpose                                               |
+| ------------------- | -------------------------------- | ----------------------------------------------------- |
+| Framework           | Vue 3 + Vite                     | Lightweight, fast, ideal for POCs and low-end devices |
+| State / Local Queue | IndexedDB (Dexie.js)             | Persistent offline vote queue                         |
+| Sync Engine         | Service Worker + Background Sync | Reliable delivery and retry logic                     |
+| Cryptography        | Web Crypto API                   | Digital signatures for vote integrity                 |
+| Offline Logic       | Service Worker + Vue composables | Network awareness and auto-retries                    |
+| Hosting             | Cloudflare Pages or Vercel Edge  | Global CDN delivery                                   |
+| Real-Time Updates   | WebSockets / SSE                 | Live vote count updates                               |
+| Build Output        | Static assets                    | Easily deployable to any CDN                          |
 
 ---
 
@@ -115,4 +117,3 @@ Design for a global voting platform serving **300M users** with **250K requests/
 - HTTPS and HSTS enforced for all communication.
 
 ---
-

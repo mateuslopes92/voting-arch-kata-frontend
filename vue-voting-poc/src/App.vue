@@ -4,7 +4,7 @@
 
     <div class="flex gap-2 items-center">
       <button
-        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mr-10"
         @click="castVote"
       >
         Cast Vote
@@ -28,6 +28,7 @@
           <div>
             <p class="text-sm">🆔 {{ vote.id }}</p>
             <p class="text-xs text-gray-500">Status: {{ vote.status }}</p>
+            <p class="text-xs text-gray-400">Key: {{ vote.idempotencyKey }}</p>
           </div>
           <p v-if="vote.status === 'failed'" class="text-red-600 text-xs">Retries: {{ vote.retries }}</p>
         </li>
@@ -62,10 +63,12 @@ async function signVote(voteId) {
 // ---- Main Actions ----
 async function castVote() {
   const id = generateId();
-  const signature = await signVote(id);
+  const idempotencyKey = crypto.randomUUID();
+  const signature = await signVote(id + idempotencyKey);
 
   await db.votes.add({
     id,
+    idempotencyKey,
     status: 'queued',
     retries: 0,
     signature
