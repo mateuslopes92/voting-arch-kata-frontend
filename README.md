@@ -117,3 +117,15 @@ Design for a global voting platform serving **300M users** with **250K requests/
 - HTTPS and HSTS enforced for all communication.
 
 ---
+
+
+## CDN Cloudflare vs AWS Cloudfront - TRADEOFFS
+
+### Amazon Cloudfront
+- *Extensive Network of PoPs:* Present in different regions, more than 410 PoPs (Points of Presence) in 48 countries.
+- *Security:* Can combine with AWS Web Shield, AWS APplication Firewall and AWS S3 Route to prevent attacks.
+- *Availability:* Can enable Origin Shield to reduce the server load and also can have redundancy on backend architecture.
+- *Cloudfront Edge:* It offers programmable functions and solutions for managing traffic at edge locations.
+- *Intuitive Panel:* Developer friendly, complete API and SDKs of AWS with devops tools, to configure workloads or propagate changes fast.
+
+### Cloudfare
