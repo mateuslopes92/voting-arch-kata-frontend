@@ -128,4 +128,9 @@ Design for a global voting platform serving **300M users** with **250K requests/
 - *Cloudfront Edge:* It offers programmable functions and solutions for managing traffic at edge locations.
 - *Intuitive Panel:* Developer friendly, complete API and SDKs of AWS with devops tools, to configure workloads or propagate changes fast.
 
-### Cloudfare
+### Cloudflare
+- *Integrated cache:* Personalized cache module to control pages to be cached.
+- *DNS:* Free service that translate names in to IP address when access in being done with 4,5ms.
+- *Security:* Has firewall for web applications, is available in paid plans and have criptography SSL/TLS
+
+*Conclusion:* Cloudflare is best for simple, low-cost, easy-to-deploy caching and security across any cloud, while CloudFront is the better choice for deep AWS integration, advanced edge features, and high-performance control.
