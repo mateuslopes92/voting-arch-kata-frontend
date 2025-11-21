@@ -134,3 +134,35 @@ Design for a global voting platform serving **300M users** with **250K requests/
 - *Security:* Has firewall for web applications, is available in paid plans and have criptography SSL/TLS
 
 *Conclusion:* Cloudflare is best for simple, low-cost, easy-to-deploy caching and security across any cloud, while CloudFront is the better choice for deep AWS integration, advanced edge features, and high-performance control.
+
+## Retry Strategy
+
+The frontend uses built-in browser features to guarantee that every vote is eventually delivered.
+
+### Components Used
+- **Service Worker** → runs the sync logic
+- **Background Sync API** → automatic retry when online
+- **IndexedDB** → stores votes until confirmed
+- **Online/Offline events** → trigger immediate retries
+- **Exponential Backoff** → avoid flooding the server
+- **Idempotency Keys** → prevent duplicate votes
+
+### Sync Flow
+1. User votes → save vote in `IndexedDB`.
+2. Service Worker tries to send it immediately.
+3. If offline:
+   - Service Worker registers a background sync task (`sync-votes`).
+4. When the network returns:
+   - Browser fires the `"sync"` event
+   - Service Worker sends all queued votes.
+5. If the API returns 5xx/timeouts:
+   - Retry with exponential backoff + jitter.
+6. When a vote succeeds:
+   - Mark as `confirmed` and remove from the queue.
+7. Votes stay in IndexedDB **until confirmed**, so none are lost.
+
+### Summary
+- Background Sync = the watcher
+- Service Worker = the retry engine
+- IndexedDB = the persistent queue
+- Backoff + idempotency = safe retries
