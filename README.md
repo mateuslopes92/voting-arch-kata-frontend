@@ -135,6 +135,8 @@ Design for a global voting platform serving **300M users** with **250K requests/
 
 *Conclusion:* Cloudflare is best for simple, low-cost, easy-to-deploy caching and security across any cloud, while CloudFront is the better choice for deep AWS integration, advanced edge features, and high-performance control.
 
+---
+
 ## Retry Strategy
 
 The frontend uses built-in browser features to guarantee that every vote is eventually delivered.
@@ -166,3 +168,38 @@ The frontend uses built-in browser features to guarantee that every vote is even
 - Service Worker = the retry engine
 - IndexedDB = the persistent queue
 - Backoff + idempotency = safe retries
+
+---
+
+## Frontend Performance (Vite + Vue) Compression
+
+To support a global voting system, the frontend must load fast and remain lightweight. With **Vite**, we ensure optimized builds and fast delivery.
+
+### Bundling
+- Vite uses **ESBuild** (dev) and **Rollup** (prod).
+- Automatic **tree-shaking** to remove unused code and **code-splitting** reduce final bundle size.
+- Dynamic imports load only what the user needs.
+
+### Compression
+Serve pre-compressed static assets for maximum performance:
+- **Brotli (.br)** – best compression ratio.
+- **Gzip (.gz)** – fallback for older browsers.
+
+Recommended plugin: `vite-plugin-compression`
+
+### Caching Strategy
+- Static assets: Cache-Control: max-age=31536000, immutable
+- HTML: no-cache (always fetch latest version)
+- Vite automatically adds hashed filenames for long-term caching.
+
+### Runtime Optimizations
+- Use HTTP/2 or HTTP/3 for parallel and faster asset delivery.
+- Lazy-load heavy components:
+
+```
+const VoteChart = defineAsyncComponent(() => import('./VoteChart.vue'))
+```
+
+### Vite automatically injects:
+- `<link rel="modulepreload">`
+- Optimized asset preloading.
