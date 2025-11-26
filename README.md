@@ -203,3 +203,5 @@ const VoteChart = defineAsyncComponent(() => import('./VoteChart.vue'))
 ### Vite automatically injects:
 - `<link rel="modulepreload">`
 - Optimized asset preloading.
+
+## Mobile Native App - Security
