@@ -205,3 +205,5 @@ const VoteChart = defineAsyncComponent(() => import('./VoteChart.vue'))
 - Optimized asset preloading.
 
 ## Mobile Native App - Security
+
+Key Security Measures
