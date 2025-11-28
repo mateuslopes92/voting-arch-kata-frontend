@@ -206,4 +206,36 @@ const VoteChart = defineAsyncComponent(() => import('./VoteChart.vue'))
 
 ## Mobile Native App - Security
 
-Key Security Measures
+### 1. Code Protection
+- Enable obfuscation (Android R8/ProGuard, iOS symbol stripping).
+- Remove debug symbols and disable debug builds.
+
+### 2. Secure Storage
+- Never store secrets in plain text.
+- Use OS secure storage:
+  - Android: Keystore + EncryptedSharedPreferences
+  - iOS: Keychain
+
+### 3. API Security
+- Enforce HTTPS only.
+- Use SSL Certificate Pinning.
+- Avoid embedding API keys inside the app.
+- Use backend-issued tokens (OAuth / PKCE / JWT).
+
+### 4. Runtime Protection
+- Detect jailbreak/root.
+- Detect hooking/debugging tools.
+- Block execution on compromised environments (optional).
+
+### 5. Integrity & Anti-Tampering
+- Validate app signature on backend.
+- Use Play Integrity API / DeviceCheck.
+- Detect repackaging or code injection.
+
+### Minimal Setup
+- HTTPS + certificate pinning
+- Secure storage via Keychain/Keystore
+- Token-based auth (no hardcoded secrets)
+- Obfuscation enabled
+- Basic root/jailbreak detection
+- Backend checks app signature + token freshness
