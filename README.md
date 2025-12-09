@@ -239,3 +239,41 @@ const VoteChart = defineAsyncComponent(() => import('./VoteChart.vue'))
 - Obfuscation enabled
 - Basic root/jailbreak detection
 - Backend checks app signature + token freshness
+
+
+## TradeOffs - Native Mobile Techs
+### 1. Fully Native (Kotlin + Swift)
+
+*Pros*
+- Maximum performance & stability
+- Best OS-level security (KeyStore / Keychain)
+- Mature tooling, straightforward debugging
+- Full control over platform-specific features
+
+*Cons*
+- Two codebases → higher cost and slower delivery
+- Must duplicate business logic (sync, crypto, vote queue)
+- More room for inconsistencies between Android and iOS
+
+*Best when:*
+- You have separate mobile teams and want maximum platform control.
+
+2. Kotlin Multiplatform (KMM)
+
+*Pros*
+- Shared core logic (networking, offline queue, crypto, sync)
+- Faster development, fewer duplicated bugs
+- Still uses native UI (SwiftUI + Compose)
+- Same performance as native (no runtime overhead)
+
+*Cons*
+- More complex build/tooling setup
+- Smaller ecosystem than full-native
+- Requires both Kotlin and Swift skills for UI layers
+
+*Best when:*
+- You want native apps but with shared logic to reduce cost and ensure consistent voting behavior across platforms.
+
+
+#### Final Decision
+*KMM* For fatest delivery and shared logic.
